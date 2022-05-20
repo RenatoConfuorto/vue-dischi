@@ -1,7 +1,7 @@
 <template>
   <div class="genre-filter">
     <label for="genre-filter">Filtra per genere:</label>
-    <select name="filter" id="genre-filter">
+    <select name="filter" id="genre-filter" @change="getChange($event)">
       <option value=""></option>
       <option value="rock">rock</option>
       <option value="pop">pop</option>
@@ -13,7 +13,12 @@
 
 <script>
 export default {
-  
+  name: 'MusicFilter',
+  methods: {
+    getChange(event) {
+      this.$emit('filterMusic', event.target.value);
+    }
+  }
 }
 </script>
 

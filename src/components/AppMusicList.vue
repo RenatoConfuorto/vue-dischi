@@ -2,9 +2,9 @@
   <div class="music-list-section">
     <div class="container">
       <div class="music-list" v-if="musicData.success">
-        <MusicFilter/>
+        <MusicFilter @filterMusic="getFilterAlbum($event)"/>
         <div class="card-container row row-cols-5">
-          <MusicCard v-for="(item, index) in musicData.response" :key="index" :musicObj="item"/>
+          <MusicCard v-for="(item, index) in filteredAlbums" :key="index" :musicObj="item"/>
         </div>
       </div>
       <div v-else class="loading-screen d-flex justify-content-center">
@@ -27,6 +27,7 @@ export default {
         response: [],
         success: false,
       },
+      albumFilterkey: '',
     }
   },
   components: {
@@ -37,11 +38,22 @@ export default {
     axios.get('https://flynn.boolean.careers/exercises/api/array/music')
     .then( (resp) => {
       this.musicData.response = resp.data.response;
-      resp.data.response.forEach(element => {
-        console.log(element.genre);
-      });
       this.musicData.success = true;
     })
+  },
+  methods: {
+    getFilterAlbum(event) {
+      this.albumFilterkey = event;
+    }
+  },
+  computed: {
+    filteredAlbums() {
+      const filteredMusic = this.musicData.response.filter( (element) => {
+        return element.genre.toLowerCase().includes(this.albumFilterkey);
+      });
+
+      return filteredMusic;
+    }
   }
 }
 </script>
