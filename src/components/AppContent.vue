@@ -21,7 +21,6 @@ export default {
   .app-content{
     width: 100%;
     // height: calc(100vh - $app-header-height);
-    background-color: $app-primary-color;
   }
 
 </style>

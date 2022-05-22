@@ -4,8 +4,16 @@
       <div class="music-list" v-if="musicData.success">
         <MusicFilter @filterMusic="getFilterGenreKey($event)" :objData="genresData" />
         <MusicFilter @filterMusic="getFilterAuthorKey($event)" :objData="authorsData" />
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5">
-          <MusicCard v-for="(item, index) in filteredAlbums" :key="index" :musicObj="item"/>
+        <div class="cards-container">
+          <div class="cards-placeholder" v-if="filteredAlbums.length === 0">
+            <font-awesome-icon icon="fas fa-times-circle" />
+            Non ci sono elementi corrispondenti
+          </div>
+          <div v-else class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5">
+            <!-- solo questo div non devo mostrarsi se non ci sono album -->
+            <MusicCard v-for="(item, index) in filteredAlbums" :key="index" :musicObj="item"/>
+          </div>
+
         </div>
       </div>
       <div v-else class="loading-screen d-flex justify-content-center">
@@ -84,14 +92,15 @@ export default {
       });
 
       //filtrare per autore
-      const authorilteredMusic = genreFilteredMusic.filter( (element) => {
+      const authorFilteredMusic = genreFilteredMusic.filter( (element) => {
         return element.author.toLowerCase().includes(this.albumAuthorFilterKey);
       });
 
       // console.log('genere', genreFilteredMusic);
-      // console.log('autore', authorilteredMusic);
-      return authorilteredMusic;
+      // console.log('autore', authorFilteredMusic);
+      return authorFilteredMusic;
     },
+
   }
 }
 </script>
@@ -104,9 +113,26 @@ export default {
   margin: 0 auto;
   padding-top: 30px;
 
+  .cards-container{
+
+    .cards-placeholder{
+      font-size: 1.8rem;
+      text-align: center;
+      color: white;
+
+      svg{
+        margin-right: 10px;
+      }
+    }
+  }
+
   .loading-screen{
     font-size: 3rem;
     color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
       svg{
         animation-timing-function:  linear;
@@ -128,6 +154,24 @@ export default {
 
   100%{
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 576px){
+  .music-list-section{
+
+    .cards-container{
+
+      .cards-placeholder{
+    
+        svg{
+          display: block;
+          // margin-right: 0;
+          margin: 5px auto;
+        }
+      }
+
+    }
   }
 }
 </style>

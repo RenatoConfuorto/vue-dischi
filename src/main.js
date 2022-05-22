@@ -6,10 +6,11 @@ import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSpinner)
+library.add(faSpinner, faTimesCircle)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
