@@ -2,7 +2,8 @@
   <div class="music-list-section">
     <div class="container">
       <div class="music-list" v-if="musicData.success">
-        <MusicFilter @filterMusic="getFilterAlbum($event)"/>
+        <MusicFilter @filterMusic="getFilterGenreKey($event)" :objData="genresData" />
+        <MusicFilter @filterMusic="getFilterAuthorKey($event)" :objData="authorsData" />
         <div class="card-container row row-cols-5">
           <MusicCard v-for="(item, index) in filteredAlbums" :key="index" :musicObj="item"/>
         </div>
@@ -27,7 +28,16 @@ export default {
         response: [],
         success: false,
       },
-      albumFilterkey: '',
+      albumGenreFilterKey: '',
+      albumAuthorFilterKey: '',
+      genresData: {
+        type: 'genere',
+        data: [],
+      },
+      authorsData: {
+        type: 'artisti',
+        data: [],
+      },
     }
   },
   components: {
@@ -39,21 +49,49 @@ export default {
     .then( (resp) => {
       this.musicData.response = resp.data.response;
       this.musicData.success = true;
-    })
+
+      this.getAlbumElements(this.authorsData.data, 'author'); //ottenere gli artisti
+      this.getAlbumElements(this.genresData.data, 'genre'); //ottenere i generi
+
+    });
+
+    
   },
   methods: {
-    getFilterAlbum(event) {
-      this.albumFilterkey = event;
+    getFilterGenreKey(event) {
+      this.albumGenreFilterKey = event.toLowerCase();
+    },
+    getFilterAuthorKey(event) {
+      this.albumAuthorFilterKey = event.toLowerCase();
+    },
+
+    getAlbumElements(array, key){
+      //ottenere degli elementi (artisti o genere) dagli album
+      array.push(''); //c'è bisogno anche duìi una stringa vuota
+      this.musicData.response.forEach(element => {
+      if(!array.includes(element[key])){
+        array.push(element[key]);
+      }
+    });
+    
     }
   },
   computed: {
     filteredAlbums() {
-      const filteredMusic = this.musicData.response.filter( (element) => {
-        return element.genre.toLowerCase().includes(this.albumFilterkey);
+      //filtrare per genere
+      const genreFilteredMusic = this.musicData.response.filter( (element) => {
+        return element.genre.toLowerCase().includes(this.albumGenreFilterKey);
       });
 
-      return filteredMusic;
-    }
+      //filtrare per autore
+      const authorilteredMusic = genreFilteredMusic.filter( (element) => {
+        return element.author.toLowerCase().includes(this.albumAuthorFilterKey);
+      });
+
+      // console.log('genere', genreFilteredMusic);
+      // console.log('autore', authorilteredMusic);
+      return authorilteredMusic;
+    },
   }
 }
 </script>
