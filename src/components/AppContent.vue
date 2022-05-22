@@ -1,5 +1,5 @@
 <template>
-  <div class="app-content d-flex justify-content-center align-items-center">
+  <div class="app-content">
     <AppMusicList/>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
 
   .app-content{
     width: 100%;
-    height: calc(100vh - $app-header-height);
+    // height: calc(100vh - $app-header-height);
     background-color: $app-primary-color;
   }
 

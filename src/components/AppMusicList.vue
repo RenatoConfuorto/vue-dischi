@@ -4,7 +4,7 @@
       <div class="music-list" v-if="musicData.success">
         <MusicFilter @filterMusic="getFilterGenreKey($event)" :objData="genresData" />
         <MusicFilter @filterMusic="getFilterAuthorKey($event)" :objData="authorsData" />
-        <div class="card-container row row-cols-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5">
           <MusicCard v-for="(item, index) in filteredAlbums" :key="index" :musicObj="item"/>
         </div>
       </div>
@@ -101,6 +101,8 @@ export default {
 
 .music-list-section{
   width: 80%;
+  margin: 0 auto;
+  padding-top: 30px;
 
   .loading-screen{
     font-size: 3rem;

@@ -56,4 +56,17 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 576px) {
+  .ms_card-container{
+    
+    .ms_card{
+
+      .cover{
+        width: 75%;
+        margin: 0 auto;
+      }
+    }
+  }
+}
 </style>
